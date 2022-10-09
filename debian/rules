@@ -1,0 +1,30 @@
+#!/usr/bin/make -f
+
+include /usr/share/dpkg/default.mk
+
+VERSION := $(shell echo $(DEB_VERSION_UPSTREAM) | sed 's/+dfsg//')
+
+#export CLASSPATH=/usr/share/java/xmlbeans.jar
+
+%:
+	dh $@ --with maven-repo-helper --with javahelper
+
+override_dh_auto_build:
+	dh_auto_build -- -Dversion.id=$(VERSION) -DDSTAMP=$(shell date '--date=@$(SOURCE_DATE_EPOCH)' +%Y%m%d) jar maven-poms javadocs
+
+override_dh_auto_test:
+ifeq (,$(filter nocheck,$(DEB_BUILD_OPTIONS)))
+	dh_auto_build -- test
+endif
+
+override_dh_auto_install:
+	mh_installpom -plibapache-poi-java    build/dist/maven/poi/poi-$(VERSION).pom
+	mh_installpom -plibapache-poi-java    build/dist/maven/poi-scratchpad/poi-scratchpad-$(VERSION).pom
+	mh_installpom -plibapache-poi-java    build/dist/maven/poi-ooxml/poi-ooxml-$(VERSION).pom
+	mh_installpom -plibapache-poi-java    build/dist/maven/poi-ooxml-schemas/poi-ooxml-schemas-$(VERSION).pom
+	mh_installpom -plibapache-poi-java    build/dist/maven/poi-excelant/poi-excelant-$(VERSION).pom
+	mh_installjar -plibapache-poi-java -l build/dist/maven/poi/poi-$(VERSION).pom build/dist/maven/poi/poi-$(VERSION).jar
+	mh_installjar -plibapache-poi-java -l build/dist/maven/poi-scratchpad/poi-scratchpad-$(VERSION).pom build/dist/maven/poi-scratchpad/poi-scratchpad-$(VERSION).jar
+	mh_installjar -plibapache-poi-java -l build/dist/maven/poi-ooxml/poi-ooxml-$(VERSION).pom build/dist/maven/poi-ooxml/poi-ooxml-$(VERSION).jar
+	mh_installjar -plibapache-poi-java -l build/dist/maven/poi-ooxml-schemas/poi-ooxml-schemas-$(VERSION).pom build/dist/maven/poi-ooxml-schemas/poi-ooxml-schemas-$(VERSION).jar
+	mh_installjar -plibapache-poi-java -l build/dist/maven/poi-excelant/poi-excelant-$(VERSION).pom build/dist/maven/poi-excelant/poi-excelant-$(VERSION).jar

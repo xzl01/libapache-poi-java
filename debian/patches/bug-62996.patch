@@ -1,0 +1,17 @@
+Description: Fixes unit tests in TestExcelStyleDateFormatter for locale zh_CN
+Origin: backport, https://svn.apache.org/r1848591
+Buf: https://bz.apache.org/bugzilla/show_bug.cgi?id=62996
+--- a/src/testcases/org/apache/poi/ss/usermodel/TestExcelStyleDateFormatter.java
++++ b/src/testcases/org/apache/poi/ss/usermodel/TestExcelStyleDateFormatter.java
+@@ -91,9 +91,9 @@
+      */
+     private int localeIndex(Locale locale) {
+         final String provider = System.getProperty("java.locale.providers");
+-        return jreVersion < 12 ||
++        return jreVersion < 9 ||
+             !locale.equals (Locale.CHINESE) ||
+-            (provider != null && provider.startsWith("JRE"))
++            (provider != null && (provider.startsWith("JRE") || provider.startsWith("COMPAT")))
+             ? 0 : 1;
+     }
+ 

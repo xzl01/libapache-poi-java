@@ -1,0 +1,29 @@
+Description: Patch to use the local OOXML schema instead of fetching the files from the ECMA site at build time
+Author: Emmanuel Bourg <ebourg@apache.org>
+Forwarded: not-needed
+--- a/build.xml
++++ b/build.xml
+@@ -999,12 +999,12 @@
+         </sequential>
+     </macrodef>
+ 
+-    <target name="compile-ooxml-xsds" unless="ooxml-compiled-xsds.present"
++    <target name="compile-ooxml-xsds"
+         depends="init,check-compiled-ooxml-xsds"
+         description="Unpacks the OOXML xsd files, and compiles them into XmlBeans">
+         <compile-ooxml-xmlbean classes-jar="${ooxml.xsds.jar}" sources-jar="${ooxml.xsds.src.jar}">
+             <xsds>
+-                <zipfileset src="${ooxml.lib}/${ooxml.xsds.izip.1}"/>
++                <fileset dir="ooxml-xsds" excludes="opc*"/>
+                 <fileset dir="${ooxml.visio.xsd.dir}"/>
+                 <fileset dir="${ooxml.schema.xsdconfig.dir}"/>
+             </xsds>
+@@ -1012,7 +1012,7 @@
+         <!-- Now do the same for the security schemas -->
+         <compile-ooxml-xmlbean classes-jar="${ooxml.security.jar}" sources-jar="${ooxml.security.src.jar}">
+             <xsds>
+-                <zipfileset src="${ooxml.lib}/${ooxml.xsds.izip.2}" includes="opc-digSig.xsd,opc-relationships.xsd"/>
++                <fileset dir="ooxml-xsds" includes="opc*"/>
+                 <fileset dir="${ooxml.lib}" includes="xmldsig*.xsd,XAdES*.xsd"/>
+                 <fileset dir="${ooxml.security.xsd.dir}"/>
+             </xsds>

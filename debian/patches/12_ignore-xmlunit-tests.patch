@@ -1,0 +1,98 @@
+Description: Disables the tests using xmlunit 2 (not in Debian yet)
+Author: Emmanuel Bourg <ebourg@apache.org>
+Forwarded: not-needed
+--- a/src/ooxml/testcases/org/apache/poi/openxml4j/opc/ZipFileAssert.java
++++ b/src/ooxml/testcases/org/apache/poi/openxml4j/opc/ZipFileAssert.java
+@@ -34,14 +34,6 @@
+ import org.apache.commons.compress.archivers.zip.ZipArchiveInputStream;
+ import org.apache.poi.util.IOUtils;
+ import org.junit.Assert;
+-import org.xmlunit.builder.DiffBuilder;
+-import org.xmlunit.builder.Input;
+-import org.xmlunit.diff.Comparison;
+-import org.xmlunit.diff.ComparisonResult;
+-import org.xmlunit.diff.DefaultNodeMatcher;
+-import org.xmlunit.diff.Diff;
+-import org.xmlunit.diff.DifferenceEvaluator;
+-import org.xmlunit.diff.ElementSelectors;
+ 
+ import junit.framework.AssertionFailedError;
+ 
+@@ -68,15 +60,6 @@
+ 
+             if (fileName.matches(".*\\.(xml|rels)$")) {
+                 // we have a xml file
+-                final Diff diff = DiffBuilder.
+-                        compare(Input.fromByteArray(contain1.toByteArray())).
+-                        withTest(Input.fromByteArray(contain2.toByteArray())).
+-                        ignoreWhitespace().
+-                        checkForSimilar().
+-                        withDifferenceEvaluator(new IgnoreXMLDeclEvaluator()).
+-                        withNodeMatcher(new DefaultNodeMatcher(ElementSelectors.byNameAndAllAttributes, ElementSelectors.byNameAndText)).
+-                        build();
+-                assertFalse(fileName+": "+diff.toString(), diff.hasDifferences());
+             } else {
+                 // not xml, may be an image or other binary format
+                 Assert.assertEquals(fileName + " does not have the same size in both zip:", contain1.size(), contain2.size());
+@@ -144,29 +127,4 @@
+         }
+     }
+ 
+-    private static class IgnoreXMLDeclEvaluator implements DifferenceEvaluator {
+-        @Override
+-        public ComparisonResult evaluate(final Comparison comparison, final ComparisonResult outcome) {
+-            if (outcome != ComparisonResult.EQUAL) {
+-                // only evaluate differences
+-                switch (comparison.getType()) {
+-                    case CHILD_NODELIST_SEQUENCE:
+-                    case XML_STANDALONE:
+-                    case NAMESPACE_PREFIX:
+-                        return ComparisonResult.SIMILAR;
+-                    case TEXT_VALUE:
+-                        switch (comparison.getControlDetails().getTarget().getParentNode().getNodeName()) {
+-                        case "dcterms:created":
+-                        case "dc:creator":
+-                            return ComparisonResult.SIMILAR;
+-                        }
+-                        break;
+-                    default:
+-                        break;
+-                }
+-            }
+-
+-            return outcome;
+-        }
+-    }
+ }
+--- a/src/ooxml/testcases/org/apache/poi/xddf/usermodel/TestXDDFColor.java
++++ b/src/ooxml/testcases/org/apache/poi/xddf/usermodel/TestXDDFColor.java
+@@ -32,9 +32,6 @@
+ import org.openxmlformats.schemas.drawingml.x2006.main.STPresetColorVal;
+ import org.openxmlformats.schemas.drawingml.x2006.main.STSchemeColorVal;
+ import org.openxmlformats.schemas.drawingml.x2006.main.STSystemColorVal;
+-import org.xmlunit.builder.DiffBuilder;
+-import org.xmlunit.builder.Input;
+-import org.xmlunit.diff.Diff;
+ 
+ public class TestXDDFColor {
+     private static final String XMLNS = "xmlns:a=\"http://schemas.openxmlformats.org/drawingml/2006/main\"/>";
+@@ -46,19 +43,6 @@
+ 
+             XDDFColor color = XDDFColor.forColorContainer(getThemeColor(theme, STSchemeColorVal.ACCENT_2));
+             // accent2 in theme1.xml is <a:srgbClr val="C0504D"/>
+-            Diff d1 = DiffBuilder.compare(Input.fromString("<a:srgbClr val=\"C0504D\" " + XMLNS))
+-                    .withTest(color.getColorContainer().toString()).build();
+-            assertFalse(d1.toString(), d1.hasDifferences());
+-
+-            color = XDDFColor.forColorContainer(getThemeColor(theme, STSchemeColorVal.LT_1));
+-            Diff d2 = DiffBuilder.compare(Input.fromString("<a:sysClr lastClr=\"FFFFFF\" val=\"window\" " + XMLNS))
+-                    .withTest(color.getColorContainer().toString()).build();
+-            assertFalse(d2.toString(), d2.hasDifferences());
+-
+-            color = XDDFColor.forColorContainer(getThemeColor(theme, STSchemeColorVal.DK_1));
+-            Diff d3 = DiffBuilder.compare(Input.fromString("<a:sysClr lastClr=\"000000\" val=\"windowText\" " + XMLNS))
+-                    .withTest(color.getColorContainer().toString()).build();
+-            assertFalse(d3.toString(), d3.hasDifferences());
+         }
+     }
+ 

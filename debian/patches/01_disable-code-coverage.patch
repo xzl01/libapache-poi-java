@@ -1,0 +1,147 @@
+Description: Disables the code coverage report (Jacoco isn't available in Debian)
+Author: Emmanuel Bourg <ebourg@apache.org>
+Forwarded: not-needed
+--- a/build.xml
++++ b/build.xml
+@@ -1344,7 +1344,7 @@
+     </target>
+ 
+     <!-- Section: test (execute junit tests on test suites) -->
+-    <target name="test" depends="compile,jacocotask,test-main,test-scratchpad,test-ooxml,test-excelant"
++    <target name="test" depends="compile,test-main,test-scratchpad,test-ooxml,test-excelant"
+             description="Tests main, scratchpad and ooxml"/>
+     <target name="test-all" depends="test,test-integration,test-ooxml-lite,testcoveragereport"
+             description="Tests main, scratchpad, ooxml, ooxml-lite, and coveragereport"/>
+@@ -1434,9 +1434,8 @@
+     </target>
+ 
+     <target name="test-main" unless="main.test.notRequired"
+-            depends="compile-main, -test-main-check,jacocotask" xmlns:jacoco="antlib:org.jacoco.ant"
++            depends="compile-main, -test-main-check"
+             description="tests POI classes that deal with the Microsoft Office binary (BIFF8) file formats (excludes OOXML)">
+-        <jacoco:coverage enabled="${coverage.enabled}" excludes="${coverage.excludes}" destfile="build/jacoco-main.exec">
+             <junit fork="yes" forkmode="once" printsummary="yes" haltonfailure="${halt.on.test.failure}"
+                    failureproperty="main.test.failed" showoutput="true">
+                 <classpath refid="test.classpath"/>
+@@ -1468,7 +1467,6 @@
+                     </fileset>
+                 </batchtest>
+             </junit>
+-        </jacoco:coverage>
+         <delete file="${main.testokfile}"/>
+         <antcall target="-test-main-write-testfile"/>
+     </target>
+@@ -1500,10 +1498,9 @@
+         </uptodate>
+     </target>
+ 
+-    <target name="test-scratchpad" depends="compile-main,compile-scratchpad,-test-scratchpad-check,jacocotask,test-scratchpad-download-resources"
+-            unless="scratchpad.test.notRequired" xmlns:jacoco="antlib:org.jacoco.ant"
++    <target name="test-scratchpad" depends="compile-main,compile-scratchpad,-test-scratchpad-check,test-scratchpad-download-resources"
++            unless="scratchpad.test.notRequired"
+             description="test non-OOXML scratchpad classes">
+-        <jacoco:coverage enabled="${coverage.enabled}" excludes="${coverage.excludes}" destfile="build/jacoco-scratchpad.exec">
+             <junit printsummary="yes" fork="yes" forkmode="once" haltonfailure="${halt.on.test.failure}"
+                    failureproperty="scratchpad.test.failed">
+                 <classpath refid="test.scratchpad.classpath"/>
+@@ -1538,7 +1535,6 @@
+                     </fileset>
+                 </batchtest>
+             </junit>
+-        </jacoco:coverage>
+         <delete file="${scratchpad.testokfile}"/>
+         <antcall target="-test-scratchpad-write-testfile"/>
+     </target>
+@@ -1555,11 +1551,10 @@
+         </uptodate>
+     </target>
+ 
+-    <macrodef name="ooxml-test-runner" xmlns:jacoco="antlib:org.jacoco.ant">
++    <macrodef name="ooxml-test-runner">
+         <attribute name="classpath"/>
+         <attribute name="type"/>
+         <sequential>
+-            <jacoco:coverage enabled="${coverage.enabled}" excludes="${coverage.excludes}" destfile="build/jacoco-@{type}.exec">
+               <junit printsummary="yes" fork="yes" forkmode="once" haltonfailure="${halt.on.test.failure}"
+                      failureproperty="ooxml.test.failed">
+                   <classpath>
+@@ -1594,8 +1589,6 @@
+                       </fileset>
+                   </batchtest>
+               </junit>
+-            </jacoco:coverage>
+-            <jacoco:coverage enabled="${coverage.enabled}" excludes="${coverage.excludes}" destfile="build/jacoco-@{type}-xmlsec.exec">
+               <junit printsummary="yes" fork="yes" forkmode="once" haltonfailure="${halt.on.test.failure}"
+                      failureproperty="ooxml.xmlsec.test.failed">
+                   <classpath>
+@@ -1624,11 +1617,10 @@
+                       </fileset>
+                   </batchtest>
+               </junit>
+-            </jacoco:coverage>
+         </sequential>
+     </macrodef>
+ 
+-    <target name="test-ooxml" depends="compile-main,compile-ooxml,-test-ooxml-check,jacocotask,-ooxml-lite-agent" unless="ooxml.test.notRequired"
++    <target name="test-ooxml" depends="compile-main,compile-ooxml,-test-ooxml-check,-ooxml-lite-agent" unless="ooxml.test.notRequired"
+             description="test OOXML classes">
+         <ooxml-test-runner classpath="test.ooxml.classpath" type="ooxml"/>
+         <delete file="${ooxml.testokfile}"/>
+@@ -1646,11 +1638,10 @@
+         </uptodate>
+     </target>
+ 
+-    <target name="test-integration" depends="compile-integration,-test-integration-check,jacocotask,-ooxml-lite-agent"
+-            unless="integration.test.notRequired" xmlns:jacoco="antlib:org.jacoco.ant">
++    <target name="test-integration" depends="compile-integration,-test-integration-check,-ooxml-lite-agent"
++            unless="integration.test.notRequired">
+         <propertyreset name="org.apache.poi.util.POILogger" value="org.apache.poi.util.CommonsLogger"/>
+         <delete dir="build" includes="test-integration.log*"/>
+-        <jacoco:coverage enabled="${coverage.enabled}" excludes="${coverage.excludes}" destfile="build/jacoco-integration.exec">
+             <junit printsummary="yes" fork="yes" forkmode="once" haltonfailure="${halt.on.test.failure}"
+                    failureproperty="integration.test.failed" showoutput="true">
+                 <classpath refid="test.integration.classpath"/>
+@@ -1677,7 +1668,6 @@
+                     </fileset>
+                 </batchtest>
+             </junit>
+-        </jacoco:coverage>
+         <delete file="${integration.testokfile}"/>
+         <antcall target="-test-integration-write-testfile"/>
+     </target>
+@@ -1710,13 +1700,13 @@
+         </jar>
+     </target>
+ 
+-    <target name="test-ooxml-lite" depends="jacocotask,compile-ooxml-xsds,compile-ooxml-lite">
++    <target name="test-ooxml-lite" depends="compile-ooxml-xsds,compile-ooxml-lite">
+         <delete file="${ooxml.testokfile}"/>
+         <echo message="Running ooxml tests against 'poi-ooxml-schemas'"/>
+         <ooxml-test-runner classpath="ooxml-lite.classpath" type="ooxml-lite"/>
+     </target>
+ 
+-    <target name="-ooxml-lite-agent" depends="jacocotask,compile-ooxml-xsds,compile-ooxml">
++    <target name="-ooxml-lite-agent" depends="compile-ooxml-xsds,compile-ooxml">
+         <jar destfile="${ooxml.lite.agent}">
+             <fileset dir="${ooxml.output.test.dir}" includes="org/apache/poi/ooxml/util/OOXMLLiteAgent*.class"/>
+             <manifest>
+@@ -1737,9 +1727,8 @@
+         <echo file="${excelant.testokfile}" append="false" message="testok"/>
+     </target>
+ 
+-    <target name="test-excelant" depends="compile-excelant,-test-excelant-check,jacocotask"
+-            unless="excelant.test.notRequired" xmlns:jacoco="antlib:org.jacoco.ant">
+-        <jacoco:coverage enabled="${coverage.enabled}" excludes="${coverage.excludes}" destfile="build/jacoco-excelant.exec">
++    <target name="test-excelant" depends="compile-excelant,-test-excelant-check"
++            unless="excelant.test.notRequired">
+             <junit printsummary="yes" fork="yes" forkmode="once" haltonfailure="${halt.on.test.failure}"
+                    failureproperty="excelant.test.failed">
+                 <classpath refid="test.excelant.classpath"/>
+@@ -1765,7 +1754,6 @@
+                     </fileset>
+                 </batchtest>
+             </junit>
+-        </jacoco:coverage>
+         <delete file="${excelant.testokfile}"/>
+         <antcall target="-test-excelant-write-testfile"/>
+     </target>

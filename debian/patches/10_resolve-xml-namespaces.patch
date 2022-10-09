@@ -1,0 +1,70 @@
+Description: Resolve the external schemas (could this be replaced by a catalog?)
+Author: Emmanuel Bourg <ebourg@apache.org>
+Forwarded: not-needed
+diff --git a/ooxml-lib/dc.xsd b/ooxml-lib/dc.xsd
+index 4d5a065..2f02a6f 100644
+--- a/ooxml-lib/dc.xsd
++++ b/ooxml-lib/dc.xsd
+@@ -39,7 +39,7 @@
+ 
+ 
+   <xs:import namespace="http://www.w3.org/XML/1998/namespace"
+-             schemaLocation="http://www.w3.org/2001/03/xml.xsd">
++             schemaLocation="/usr/share/xml/xmltooling/xml.xsd">
+   </xs:import>
+ 
+   <xs:complexType name="SimpleLiteral">
+diff --git a/ooxml-lib/dcterms.xsd b/ooxml-lib/dcterms.xsd
+index 0149c6b..a3e5334 100644
+--- a/ooxml-lib/dcterms.xsd
++++ b/ooxml-lib/dcterms.xsd
+@@ -57,7 +57,7 @@
+ 
+ 
+   <xs:import namespace="http://www.w3.org/XML/1998/namespace"
+-             schemaLocation="http://www.w3.org/2001/03/xml.xsd">
++             schemaLocation="/usr/share/xml/xmltooling/xml.xsd">
+   </xs:import>
+ 
+    <xs:import namespace="http://purl.org/dc/elements/1.1/"
+diff --git a/ooxml-xsds/opc-coreProperties.xsd b/ooxml-xsds/opc-coreProperties.xsd
+index 663c90b..208de41 100644
+--- a/ooxml-xsds/opc-coreProperties.xsd
++++ b/ooxml-xsds/opc-coreProperties.xsd
+@@ -1,8 +1,8 @@
+ ﻿<?xml version="1.0" encoding="UTF-8"?>
+ <xs:schema targetNamespace="http://schemas.openxmlformats.org/package/2006/metadata/core-properties" xmlns="http://schemas.openxmlformats.org/package/2006/metadata/core-properties" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:dcterms="http://purl.org/dc/terms/" elementFormDefault="qualified" blockDefault="#all">
+ 
+-  <xs:import namespace="http://purl.org/dc/elements/1.1/" schemaLocation="http://dublincore.org/schemas/xmls/qdc/2003/04/02/dc.xsd" />
+-  <xs:import namespace="http://purl.org/dc/terms/" schemaLocation="http://dublincore.org/schemas/xmls/qdc/2003/04/02/dcterms.xsd" />
++  <xs:import namespace="http://purl.org/dc/elements/1.1/" schemaLocation="../../ooxml-lib/dc.xsd" />
++  <xs:import namespace="http://purl.org/dc/terms/" schemaLocation="../../ooxml-lib/dcterms.xsd" />
+ 
+   <xs:element name="coreProperties" type="CT_CoreProperties" />
+ 
+diff --git a/ooxml-xsds/shared-math.xsd b/ooxml-xsds/shared-math.xsd
+index 1740e6f..4c345d5 100644
+--- a/ooxml-xsds/shared-math.xsd
++++ b/ooxml-xsds/shared-math.xsd
+@@ -1,7 +1,7 @@
+ ﻿<?xml version="1.0" encoding="utf-8"?>
+ <xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" attributeFormDefault="qualified" blockDefault="#all" targetNamespace="http://schemas.openxmlformats.org/officeDocument/2006/math" xmlns="http://schemas.openxmlformats.org/officeDocument/2006/math" xmlns:m="http://schemas.openxmlformats.org/officeDocument/2006/math" xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main">
+   <xsd:import id="w" namespace="http://schemas.openxmlformats.org/wordprocessingml/2006/main" schemaLocation="wml.xsd" />
+-  <xsd:import id="xml" namespace="http://www.w3.org/XML/1998/namespace" />
++  <xsd:import id="xml" namespace="http://www.w3.org/XML/1998/namespace" schemaLocation="/usr/share/xml/xmltooling/xml.xsd" />
+   <xsd:simpleType name="ST_Integer255">
+     <xsd:annotation>
+       <xsd:documentation>Integer value (1 to 255)</xsd:documentation>
+diff --git a/ooxml-xsds/wml.xsd b/ooxml-xsds/wml.xsd
+index 737611f..4bb4841 100644
+--- a/ooxml-xsds/wml.xsd
++++ b/ooxml-xsds/wml.xsd
+@@ -4,7 +4,7 @@
+   <xsd:import id="m" namespace="http://schemas.openxmlformats.org/officeDocument/2006/math" schemaLocation="shared-math.xsd" />
+   <xsd:import id="wp" namespace="http://schemas.openxmlformats.org/drawingml/2006/wordprocessingDrawing" schemaLocation="dml-wordprocessingDrawing.xsd" />
+   <xsd:import id="rel" namespace="http://schemas.openxmlformats.org/officeDocument/2006/relationships" schemaLocation="shared-relationshipReference.xsd" />
+-  <xsd:import id="xml" namespace="http://www.w3.org/XML/1998/namespace" />
++  <xsd:import id="xml" namespace="http://www.w3.org/XML/1998/namespace" schemaLocation="/usr/share/xml/xmltooling/xml.xsd" />
+   <xsd:complexType name="CT_Empty"></xsd:complexType>
+   <xsd:simpleType name="ST_OnOff">
+     <xsd:annotation>

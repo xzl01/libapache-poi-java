@@ -1,0 +1,8 @@
+01_disable-code-coverage.patch
+05_use-local-ooxml-xsds.patch
+10_resolve-xml-namespaces.patch
+11_ignore-benchmarks.patch
+12_ignore-xmlunit-tests.patch
+bug-62996.patch
+
+#ignore-test-errors.patch

@@ -1,0 +1,2 @@
+version=3
+https://archive.apache.org/dist/poi/release/src/poi-src-([\d\.]*)-(?:.*).*.tar.gz debian debian/orig-tar.sh

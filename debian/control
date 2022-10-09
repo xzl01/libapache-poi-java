@@ -1,0 +1,89 @@
+Source: libapache-poi-java
+Section: java
+Priority: optional
+Maintainer: Debian Java Maintainers <pkg-java-maintainers@lists.alioth.debian.org>
+Uploaders:
+ Rene Engelhard <rene@debian.org>,
+ Torsten Werner <twerner@debian.org>,
+ Emmanuel Bourg <ebourg@apache.org>
+Build-Depends:
+ ant,
+ ant-optional,
+ debhelper-compat (= 13),
+ default-jdk,
+ javahelper,
+ junit4,
+ libbcpkix-java (>= 1.54),
+ libcommons-codec-java,
+ libcommons-collections4-java,
+ libcommons-compress-java,
+ libcommons-logging-java,
+ libcommons-math3-java,
+ libcurvesapi-java,
+ libdom4j-java,
+ libjaxb-java,
+ liblog4j1.2-java,
+ libxmlbeans-java (>= 3.0.2),
+ libxml-security-java (>= 2.0),
+ maven-repo-helper,
+ xmltooling-schemas
+Standards-Version: 4.6.0
+Vcs-Git: https://salsa.debian.org/java-team/libapache-poi-java.git
+Vcs-Browser: https://salsa.debian.org/java-team/libapache-poi-java
+Homepage: https://poi.apache.org
+
+Package: libapache-poi-java
+Architecture: all
+Depends:
+ libcommons-codec-java,
+ libcommons-collections4-java,
+ libcommons-compress-java,
+ libcommons-logging-java,
+ libcommons-math3-java,
+ libcurvesapi-java,
+ libdom4j-java,
+ libjaxb-java,
+ liblog4j1.2-java,
+ libxmlbeans-java,
+ ${misc:Depends}
+Suggests: libapache-poi-java-doc, ant
+Conflicts: libjakarta-poi-java
+Replaces: libjakarta-poi-java
+Provides: libjakarta-poi-java
+Description: Apache POI - Java API for Microsoft Documents
+ Apache POI provides a Java API for manipulating various file formats based upon
+ the Office Open XML standards (OOXML) and Microsoft's OLE 2 Compound Document
+ format (OLE2).
+ .
+ Apache POI supports the following formats:
+  * Word (DOC, DOCX)
+  * Excel (XLS, XLSX)
+  * PowerPoint (PPT, PPTX)
+  * Visio (VSD)
+  * Publisher (PUB)
+  * Outlook
+  * TNEF (Transport Neutral Encoding Format)
+
+Package: libapache-poi-java-doc
+Section: doc
+Architecture: all
+Depends: ${misc:Depends}
+Suggests: libapache-poi-java
+Conflicts: libjakarta-poi-java-doc
+Replaces: libjakarta-poi-java-doc
+Provides: libjakarta-poi-java-doc
+Description: Apache POI - Java API for Microsoft Documents (Documentation)
+ Apache POI provides a Java API for manipulating various file formats based upon
+ the Office Open XML standards (OOXML) and Microsoft's OLE 2 Compound Document
+ format (OLE2).
+ .
+ Apache POI supports the following formats:
+  * Word (DOC, DOCX)
+  * Excel (XLS, XLSX)
+  * PowerPoint (PPT, PPTX)
+  * Visio (VSD)
+  * Publisher (PUB)
+  * Outlook
+  * TNEF (Transport Neutral Encoding Format)
+ .
+ This package contains the documentation for libapache-poi-java.

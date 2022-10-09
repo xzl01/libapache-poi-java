@@ -1,0 +1,9 @@
+docs/skin/css/
+ooxml-lib/*.jar
+ooxml-xsds/*.jar
+ooxml-xsds/XAdES.xsd
+ooxml-xsds/XAdESv141.xsd
+ooxml-xsds/dc.xsd
+ooxml-xsds/dcmitype.xsd
+ooxml-xsds/dcterms.xsd
+ooxml-xsds/xmldsig-core-schema.xsd

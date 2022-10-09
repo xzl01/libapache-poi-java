@@ -1,0 +1,3 @@
+# some compatibility symlinks
+/usr/share/java/poi-scratchpad.jar /usr/share/java/jakarta-scratchpad-poi.jar
+/usr/share/java/poi.jar            /usr/share/java/jakarta-poi.jar

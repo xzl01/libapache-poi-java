@@ -1,0 +1,328 @@
+libapache-poi-java (4.0.1-2) unstable; urgency=medium
+
+  * Team upload.
+  * Add preliminary ignore-test-errors.patch but don't apply it to work around
+    the test failures.
+  * Ignore test failures for now which seem to be related to the upgrade of
+    commons-compress to version 1.21, "Truncated ZIP file". This could be merely
+    a problem with some kind of return code or message but should be
+    re-investigated when the next upstream version of Apache POI will be
+    packaged. (Closes: #997715)
+  * Switch to debhelper-compat = 13.
+  * Declare compliance with Debian Policy 4.6.0.
+
+ -- Markus Koschany <apo@debian.org>  Sat, 13 Nov 2021 23:13:12 +0100
+
+libapache-poi-java (4.0.1-1) unstable; urgency=medium
+
+  * Team upload.
+  * New upstream release
+    - Refreshed the patches
+    - Disabled the tests using xmlunit 2.x (not in Debian yet)
+    - Depend on libxmlbeans-java (>= 3.0.2)
+    - New dependencies on libcommons-compress-java and libcommons-math3-java
+  * Build with Java 11 (Closes: #912476)
+  * Backported a fix for a test failure
+
+ -- Emmanuel Bourg <ebourg@apache.org>  Mon, 21 Jan 2019 23:34:12 +0100
+
+libapache-poi-java (3.17-1) unstable; urgency=medium
+
+  * Team upload.
+  * New upstream release (Closes: #800958)
+    - Fixes CVE-2017-5644: XML Entity Expansion (XEE) attack with specially
+      crafted OOXML file (Closes: #858301)
+    - Fixes CVE-2017-12626: Infinite Loops while parsing crafted WMF, EMF, MSG
+      and macros. Out of memory errors while parsing crafted DOC, PPT and XLS
+      (Closes: #888651)
+    - Refreshed the patches
+    - New dependencies on libcurvesapi-java and libcommons-collections4-java
+    - Updated the path to the Maven artifacts produced by the build
+    - Added xmlbeans to the build classpath
+    - Patched the xsds to resolve the external schemas in offline mode
+    - Disabled the JMH benchmarks
+  * Build with Java 8 temporarily
+  * Standards-Version updated to 4.3.0
+
+ -- Emmanuel Bourg <ebourg@apache.org>  Thu, 17 Jan 2019 10:43:53 +0100
+
+libapache-poi-java (3.12-1) unstable; urgency=medium
+
+  * Team upload.
+  * New upstream release
+    - Refreshed the patches
+    - Added the new XSDs downloaded during the build in the upstream tarball
+    - New build dependencies on libbcpkix-java and libxml-security-java
+    - New dependency on libjaxb-api-java for Java 9+
+
+ -- Emmanuel Bourg <ebourg@apache.org>  Wed, 25 Jul 2018 23:00:27 +0200
+
+libapache-poi-java (3.10.1-4) unstable; urgency=medium
+
+  * Team upload.
+  * Fixed the test failures with Java 9 (Closes: #893250)
+  * Downgraded the ant dependency to "Suggests" level (Closes: #856693)
+  * Removed Damien Raude-Morvan from the uploaders (Closes: #889320)
+  * Properly install the poi-excelant jar
+  * Build with the DH sequencer instead of CDBS
+  * Standards-Version updated to 4.1.5
+  * Switch to debhelper level 10
+  * Use salsa.debian.org Vcs-* URLs
+  * Use a secure URL in debian/watch
+
+ -- Emmanuel Bourg <ebourg@apache.org>  Tue, 24 Jul 2018 13:55:38 +0200
+
+libapache-poi-java (3.10.1-3) unstable; urgency=medium
+ 
+  * Team upload.
+
+  [ Emmanuel Bourg ]
+  * Use the date of the changelog as the release date in Version.java
+    (Closes: #790741)
+
+  [ tony mancill ]
+  * Standards-Version updated to 3.9.8 (no changes)
+  * Update Vcs URLs to use HTTPS.
+
+ -- tony mancill <tmancill@debian.org>  Sun, 14 Aug 2016 17:09:47 -0700
+
+libapache-poi-java (3.10.1-2) unstable; urgency=medium
+
+  * Fixed CVE-2014-9527: Infinite loop on corrupted PPT file (Closes: #775171)
+  * Standards-Version updated to 3.9.6 (no changes)
+  * Moved the package to Git
+
+ -- Emmanuel Bourg <ebourg@apache.org>  Mon, 12 Jan 2015 15:06:33 +0100
+
+libapache-poi-java (3.10.1-1) unstable; urgency=medium
+
+  * New upstream release (Fixes CVE-2014-3529 and CVE-2014-3574)
+    - Refreshed the patches
+
+ -- Emmanuel Bourg <ebourg@apache.org>  Thu, 28 Aug 2014 22:43:52 +0200
+
+libapache-poi-java (3.10-2) unstable; urgency=medium
+
+  * Fixed a test failure with Java 8
+
+ -- Emmanuel Bourg <ebourg@apache.org>  Wed, 16 Jul 2014 13:51:22 +0200
+
+libapache-poi-java (3.10-1) unstable; urgency=medium
+
+  * New upstream release
+    - Refreshed the patches
+    - Build depend on junit4 instead of junit
+    - Added a patch disabling the code coverage report
+  * Standards-Version updated to 3.9.5 (no changes)
+  * Switch to debhelper level 9
+  * Use XZ compression for the upstream tarball
+
+ -- Emmanuel Bourg <ebourg@apache.org>  Tue, 25 Feb 2014 15:17:18 +0100
+
+libapache-poi-java (3.9-1) unstable; urgency=low
+
+  [ Emmanuel Bourg ]
+  * New upstream release
+    - Refreshed the patches
+    - Removed poi-contrib.jar (merged into poi.jar and poi-examples.jar)
+    - Removed the unused dependencies on commons-beanutils, commons-lang
+      and xalan
+    - Added a dependency on libcommons-codec-java
+    - Added the new excelant component (Excel Ant tasks)
+  * Removed the patches 01_javac_encoding.patch and 02_classpath.patch
+  * Enabled the unit tests
+  * Added the classpath attribute in the manifests
+  * Enabled the ooxml modules (Closes: #658288)
+    - Removed the patch 03_no_ooxml.patch
+    - Updated debian/orig-tar.sh to fetch the OOXML schemas from the ECMA site
+    - Added a dependency on libxmlbeans-java
+    - Updated debian/copyright to document the license of the OOXML schemas
+  * debian/control:
+    - Updated Standards-Version to 3.9.4 (no changes)
+    - Use canonical URLs for the Vcs-* fields
+    - Removed Michael Koch from the uploaders (Closes: #654046)
+    - Improved the package description
+  * debian/rules: Improved the clean target
+  * Updated the debian/README.* files
+
+  [ tony mancill ]
+  * Update debian/copyright to DEP5 format; clarify license of 
+    chunks_parse_cmds.tbl.  (Closes: #659067)
+
+ -- Emmanuel Bourg <ebourg@apache.org>  Tue, 09 Jul 2013 23:10:21 +0200
+
+libapache-poi-java (3.6+dfsg-2) unstable; urgency=low
+
+  * Rename package from jakarta-poi to apache-poi. Add appropriate Conflicts,
+    Replaces, and Provides.
+  * Keep some compatibility symlinks in /usr/share/java.
+  * Remove Java runtime from Depends.
+  * Switch to source format 3.0.
+  * Remove Christian from Uploaders list.
+  * Switch to debhelper level 7.
+  * Update Standards-Version: 3.9.2.
+
+ -- Torsten Werner <twerner@debian.org>  Wed, 07 Sep 2011 22:08:56 +0200
+
+libjakarta-poi-java (3.6+dfsg-1) unstable; urgency=low
+
+  * New upstream release.
+    - refresh all patches
+  * Remove Arnaud Vandyck from Uploaders
+  * Fix debian/watch to track upstream tarballs naming changes
+
+ -- Damien Raude-Morvan <drazzib@debian.org>  Wed, 30 Dec 2009 23:18:25 +0100
+
+libjakarta-poi-java (3.5+dfsg-1) unstable; urgency=low
+
+  * New upstream release.
+    - 01_javac_encoding: refreshed
+    - 02_classpath: use Debian JAR for build
+    - 03_no_ooxml: disable ooxml module (use non-free JARs)
+    - 04_jar_names: strip DSTAMP for JARs filenames
+  * Update my email address
+  * debian/orig-tar.exclude: Update exclusion file list
+
+ -- Damien Raude-Morvan <drazzib@debian.org>  Thu, 01 Oct 2009 00:36:43 +0200
+
+libjakarta-poi-java (3.2+dfsg-1) unstable; urgency=low
+
+  * New upstream release (Closes: #499729).
+    - POI documentation manual is not built anymore (depends on Forrest)
+      so remove corresponding doc-base and lintian override.
+    - Strip MS Office files from upstream tarball (.ppt, .vsd & so)
+  * Add myself to Uploaders
+  * Update Standards-Version to 3.8.3:
+    - Rename README.Debian-source to README.source to comply with policy
+    - Add recommended get-orig-source target (with orig-tar.sh script)
+  * Maven POMs:
+    - Add a Build-Depends dependency on maven-repo-helper
+    - Use mh_installpom and mh_installjar to install the POM and the jar to the
+      Maven repository
+    - Use maven-dist Ant target to generate all pom.xml files
+  * Use quilt as patch system:
+    - Add a Build-Depends on quilt
+    - Refresh all patches
+    - Use patchsys-quilt.mk in debian/rules
+    - Describe patch system in debian/README.source
+  * Install API documentation in /usr/share/doc/libjakarta-poi-java/api/
+  * Update debian/copyright:
+    - Update copyright years
+    - Include detailled upstream Authors (from KEYS file)
+    - Include GPLv3 copyright for a resource file of HDGF part of POI
+
+ -- Damien Raude-Morvan <drazzib@drazzib.com>  Thu, 27 Aug 2009 23:24:48 +0200
+
+libjakarta-poi-java (3.0.2.dfsg-2) unstable; urgency=low
+
+  [ Matthias Klose ]
+  * (Build-)depend on default-jre/-jdk.
+
+  [ Torsten Werner ]
+  * Add myself to Uploaders.
+  * Add missing Depends: ${misc:Depends}.
+  * Change debhelper compat level to 5.
+  * Add Vcs-* and Homepage headers.
+  * Update Standards-Version: 3.8.2.
+  * Do no longer quote the full text of the Apache license.
+  * Change Section: java.
+
+ -- Torsten Werner <twerner@debian.org>  Tue, 04 Aug 2009 22:17:13 +0200
+
+libjakarta-poi-java (3.0.2.dfsg-1) unstable; urgency=low
+
+  * New upstream release.
+  * Fixed debian/changelog to have proper copyright.
+  * Delete empty directory from documentation.
+  * Removed old entry from lintian overrides file.
+
+ -- Michael Koch <konqueror@gmx.de>  Thu, 14 Feb 2008 15:40:22 +0100
+
+libjakarta-poi-java (3.0.1.dfsg-2) unstable; urgency=low
+
+  * Improved wtch file to remove '.dfsg' in debian version.
+  * Updated Standards-Version to 3.7.3.
+
+ -- Michael Koch <konqueror@gmx.de>  Fri, 28 Dec 2007 11:23:11 +0100
+
+libjakarta-poi-java (3.0.1.dfsg-1) unstable; urgency=low
+
+  * oops, of course we need to remove lib/*.jar and src/contrib/lib/* from the orig
+
+ -- Rene Engelhard <rene@debian.org>  Mon, 24 Sep 2007 19:24:21 +0200
+
+libjakarta-poi-java (3.0.1-2) unstable; urgency=low
+
+  * Fix build for environments without locale set. Closes: #443034.
+  * Removed Wolfgang from Uploaders and added myself.
+
+ -- Michael Koch <konqueror@gmx.de>  Tue, 18 Sep 2007 20:33:07 +0200
+
+libjakarta-poi-java (3.0.1-1) unstable; urgency=low
+
+  * New upstream release (closes: #436974)
+  * add myself to Uploaders
+  * add watch file 
+
+ -- Rene Engelhard <rene@debian.org>  Wed, 05 Sep 2007 00:27:43 +0200
+
+libjakarta-poi-java (2.5.1-3) unstable; urgency=low
+
+  * Standards-Version: updated to 3.7.2, no change needed
+  * built with java-gcj-compat-dev
+  * no more run the tests (closes: #393151). I was able to run a lot of
+    tests with java-gcj-compat, but got a problem 'cannot open
+    display'. Maybe it'll be a problem with pbuilders.
+  * removed the patches
+
+ -- Arnaud Vandyck <avdyk@debian.org>  Mon, 30 Oct 2006 14:19:36 +0100
+
+libjakarta-poi-java (2.5.1-2) unstable; urgency=low
+
+  * Upload to unstable 
+
+ -- Wolfgang Baer <WBaer@gmx.de>  Thu,  2 Feb 2006 15:37:06 +0100
+
+libjakarta-poi-java (2.5.1-1) experimental; urgency=low
+
+  * New upstream release
+  * Move to main - build with kaffe
+  * Apache 2.0 License, adjusted debian/copyright
+  * Move package to pkg-java-maintainers for comaintenance, 
+    added Christian Bayle and myself as uploaders
+  * New build dependencies (some are also dependencies) 
+    libcommons-logging-java, liblog4j1.2-java, ant-optional, junit, cdbs,
+    libxalan2-java, libcommons-beanutils-java, libcommons-lang-java
+  * Added compat file for debhelper 4 compatibility
+  * Updated README.Debian with information about different classpaths 
+    dependend on used jakarta-poi jar files (main, scratchpad, contrib)
+  * Enabled and run unit tests
+  * Register manual and api with doc-base
+  * Standards-Version 3.6.2 (no changes)
+
+ -- Wolfgang Baer <WBaer@gmx.de>  Tue, 25 Oct 2005 21:12:16 +0200
+
+libjakarta-poi-java (1.10.0-4) unstable; urgency=high
+
+  * Fixed FTBFS: Missing Build-Depends on 'ant' (Closes: #306750)
+
+ -- Christian Bayle <bayle@debian.org>  Thu, 28 Apr 2005 21:59:48 +0200
+
+libjakarta-poi-java (1.10.0-3) unstable; urgency=low
+
+  * Missing comma in Build-Depends-Indep line of control file
+  (Closes: bug#254881) 
+
+ -- Christian Bayle <bayle@debian.org>  Thu, 24 Jun 2004 22:33:36 +0200
+
+libjakarta-poi-java (1.10.0-2) unstable; urgency=low
+
+  * Removed depends on doc package (Closes: #202399) 
+
+ -- Christian Bayle <bayle@debian.org>  Tue, 22 Jul 2003 22:03:01 +0200
+
+libjakarta-poi-java (1.10.0-1) unstable; urgency=low
+
+  * Initial Release.
+
+ -- Christian Bayle <bayle@debian.org>  Sat,  5 Jul 2003 15:42:08 +0200

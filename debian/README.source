@@ -1,0 +1,18 @@
+Patch System
+============
+
+This package uses quilt to manage all modifications to the upstream
+source. Changes are stored in the source package as diffs in
+debian/patches and applied during the build.
+
+See /usr/share/doc/quilt/README.source for a detailed explanation.
+
+
+Upstream tarball
+================
+
+The upstream tarball needs additional elements downloaded from the Internet
+to build the library. The debian/orig-tar.sh downloads and assembles them
+into a single archive. It's invoked with the get-orig-source target of
+debian/rules. Detail of elements stripped from upstream tarball are listed in
+debian/orig-tar.exclude
