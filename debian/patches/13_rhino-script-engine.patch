@@ -1,0 +1,49 @@
+Description: Run the script snippets in the Ant file with Rhino to fix the build failure with Java 17
+Author: Emmanuel Bourg <ebourg@apache.org>
+Forwarded: no
+Bug-Debian: https://bugs.debian.org/981973
+--- a/build.xml
++++ b/build.xml
+@@ -70,6 +70,7 @@
+     <property name="java.source.encoding" value="UTF-8"/>
+ 
+     <scriptdef name="propertyreset" language="javascript"
++        classpath="/usr/share/java/rhino.jar"
+         description="Allows to assign @{property} new value">
+         <attribute name="name"/>
+         <attribute name="value"/>
+@@ -578,7 +579,7 @@
+         <echo message="Using Ant: ${ant.version} from ${ant.home}, Ant detected Java ${ant.java.version} (may be different than actual Java sometimes...)" />
+         <echo message="Using Java: ${java.version}/${java.runtime.version}/${java.vm.version}/${java.vm.name} from ${java.vm.vendor} on ${os.name}: ${os.version}" />
+ 
+-        <scriptdef name="release_tag" language="javascript">
++        <scriptdef name="release_tag" language="javascript" classpath="/usr/share/java/rhino.jar">
+             var rel = ("REL_"+project.getProperty("version.id")).toUpperCase().replace(/\W/g,"_");
+             project.setProperty("RELEASE_TAG", rel);
+         </scriptdef>
+@@ -2556,7 +2557,7 @@
+             <format property="tstamp_next" pattern="yyyy-MM" offset="3" unit="month"/>
+         </tstamp>
+ 
+-        <scriptdef name="getnextrel" language="javascript">
++        <scriptdef name="getnextrel" language="javascript" classpath="/usr/share/java/rhino.jar">
+             var relCurr = new String(project.getProperty("version.id"));
+             var relNext = relCurr.replace(/[0-9]+$/, function(lastNum){ return new String(new Number(lastNum)+1); });
+             project.setProperty("rel_next", relNext);
+@@ -2684,7 +2685,7 @@
+         </tstamp>
+ 
+ 
+-        <scriptdef name="getnextrel" language="javascript">
++        <scriptdef name="getnextrel" language="javascript" classpath="/usr/share/java/rhino.jar">
+             var relPrev = new String(project.getProperty("version.id"))
+                 .replace(/([0-9]+)[^0-9]*$/, function(all,lastNum){ return new String(new Number(lastNum)-1); });
+             project.setProperty("rel_prev", relPrev);
+@@ -2760,6 +2761,7 @@
+     </macrodef>
+ 
+     <scriptdef name="bytes2mega" language="javascript"
++        classpath="/usr/share/java/rhino.jar"
+         description="Convert size in bytes to megabytes">
+         <attribute name="property"/>
+         <attribute name="bytes"/>

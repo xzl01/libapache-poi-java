@@ -13,7 +13,7 @@ Build-Depends:
  default-jdk,
  javahelper,
  junit4,
- libbcpkix-java (>= 1.54),
+ libbcpkix-java,
  libcommons-codec-java,
  libcommons-collections4-java,
  libcommons-compress-java,
@@ -23,18 +23,21 @@ Build-Depends:
  libdom4j-java,
  libjaxb-java,
  liblog4j1.2-java,
- libxmlbeans-java (>= 3.0.2),
- libxml-security-java (>= 2.0),
+ librhino-java (>= 1.7.7.2-3~),
+ libxmlbeans-java (>= 4.0.0),
+ libxml-security-java,
  maven-repo-helper,
  xmltooling-schemas
-Standards-Version: 4.6.0
+Standards-Version: 4.6.1
 Vcs-Git: https://salsa.debian.org/java-team/libapache-poi-java.git
 Vcs-Browser: https://salsa.debian.org/java-team/libapache-poi-java
 Homepage: https://poi.apache.org
+Rules-Requires-Root: no
 
 Package: libapache-poi-java
 Architecture: all
 Depends:
+ libbcpkix-java,
  libcommons-codec-java,
  libcommons-collections4-java,
  libcommons-compress-java,
@@ -45,6 +48,7 @@ Depends:
  libjaxb-java,
  liblog4j1.2-java,
  libxmlbeans-java,
+ libxml-security-java,
  ${misc:Depends}
 Suggests: libapache-poi-java-doc, ant
 Conflicts: libjakarta-poi-java
@@ -72,6 +76,7 @@ Suggests: libapache-poi-java
 Conflicts: libjakarta-poi-java-doc
 Replaces: libjakarta-poi-java-doc
 Provides: libjakarta-poi-java-doc
+Multi-Arch: foreign
 Description: Apache POI - Java API for Microsoft Documents (Documentation)
  Apache POI provides a Java API for manipulating various file formats based upon
  the Office Open XML standards (OOXML) and Microsoft's OLE 2 Compound Document

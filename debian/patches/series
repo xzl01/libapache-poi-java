@@ -6,3 +6,8 @@
 bug-62996.patch
 
 #ignore-test-errors.patch
+13_rhino-script-engine.patch
+14_language-level.patch
+15_xmlbeans-compatibility.patch
+16_bouncycastle-1.77.patch
+17_commons-compress-upgrade.patch

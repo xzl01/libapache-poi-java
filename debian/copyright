@@ -36,7 +36,7 @@ Copyright: 2003, Christian Bayle <bayle@debian.org>
            2012, tony mancill <tmancill@debian.org>
            2013, Emmanuel Bourg <ebourg@apache.org>
 License: Apache-2.0
-X-Comment: It is assumed that package maintainers have licensed their work
+Comment: It is assumed that package maintainers have licensed their work
  under terms compatible with upstream licensing terms.
 
 License: Apache-2.0

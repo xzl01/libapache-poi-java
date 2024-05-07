@@ -1,5 +1,5 @@
-/usr/share/java/poi.jar commons-logging.jar log4-1.2.jar
-/usr/share/java/poi-ooxml.jar poi.jar poi-ooxml-schemas.jar dom4j.jar
-/usr/share/java/poi-ooxml-schemas.jar xmlbeans.jar
-/usr/share/java/poi-scratchpad.jar poi.jar
-/usr/share/java/poi-excelant.jar poi.jar poi-ooxml.jar ant.jar
+usr/share/java/poi.jar /usr/share/java/commons-codec.jar /usr/share/java/commons-collections4.jar /usr/share/java/commons-logging.jar /usr/share/java/commons-math3.jar
+usr/share/java/poi-ooxml.jar /usr/share/java/bcpkix.jar /usr/share/java/commons-collections4.jar /usr/share/java/commons-compress.jar /usr/share/java/curvesapi.jar /usr/share/java/poi.jar /usr/share/java/poi-ooxml-schemas.jar /usr/share/java/xmlbeans.jar /usr/share/java/xmlsec.jar
+usr/share/java/poi-ooxml-schemas.jar /usr/share/java/xmlbeans.jar
+usr/share/java/poi-scratchpad.jar /usr/share/java/poi.jar /usr/share/java/poi-ooxml.jar
+usr/share/java/poi-excelant.jar /usr/share/java/poi.jar /usr/share/java/poi-ooxml.jar /usr/share/java/ant.jar
