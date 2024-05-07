@@ -10,7 +10,8 @@ VERSION := $(shell echo $(DEB_VERSION_UPSTREAM) | sed 's/+dfsg//')
 	dh $@ --with maven-repo-helper --with javahelper
 
 override_dh_auto_build:
-	dh_auto_build -- -Dversion.id=$(VERSION) -DDSTAMP=$(shell date '--date=@$(SOURCE_DATE_EPOCH)' +%Y%m%d) jar maven-poms javadocs
+	dh_auto_build -- -Dversion.id=$(VERSION) -DDSTAMP=$(shell date --utc --date=@$(SOURCE_DATE_EPOCH) +%Y%m%d) jar maven-poms javadocs
+
 
 override_dh_auto_test:
 ifeq (,$(filter nocheck,$(DEB_BUILD_OPTIONS)))

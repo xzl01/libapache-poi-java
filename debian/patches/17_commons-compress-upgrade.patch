@@ -1,0 +1,33 @@
+Description: fix compile issue due to commons-compress upgrade
+ commons-compress 1.25 has a different signature for
+ ZipArchiveOutputStream.putArchiveEntry(). This causes a build failure. 
+Author: PJ Fanning <fanningpj@apache.org>
+Origin: upstream, https://github.com/apache/poi/commit/386b2fcc7898533ef047d9b52e86d370d2cc9ee2
+Bug-Debian: https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=1065455
+Bug-Ubuntu: https://bugs.launchpad.net/ubuntu/+source/libapache-poi-java/+bug/2056384
+Forwarded: not-needed
+Applied-Upstream: commit, 386b2fcc7898533ef047d9b52e86d370d2cc9ee2
+Last-Update: 2024-03-07
+
+diff --git a/src/ooxml/testcases/org/apache/poi/openxml4j/opc/internal/marshallers/TestZipPackagePropertiesMarshaller.java b/src/ooxml/testcases/org/apache/poi/openxml4j/opc/internal/marshallers/TestZipPackagePropertiesMarshaller.java
+index 30fabfc1..dc986b24 100644
+--- a/src/ooxml/testcases/org/apache/poi/openxml4j/opc/internal/marshallers/TestZipPackagePropertiesMarshaller.java
++++ b/src/ooxml/testcases/org/apache/poi/openxml4j/opc/internal/marshallers/TestZipPackagePropertiesMarshaller.java
+@@ -24,7 +24,7 @@ import java.io.ByteArrayOutputStream;
+ import java.io.IOException;
+ import java.io.OutputStream;
+ 
+-import org.apache.commons.compress.archivers.ArchiveEntry;
++import org.apache.commons.compress.archivers.zip.ZipArchiveEntry;
+ import org.apache.commons.compress.archivers.zip.ZipArchiveOutputStream;
+ import org.apache.poi.openxml4j.exceptions.OpenXML4JException;
+ import org.apache.poi.openxml4j.opc.PackagingURIHelper;
+@@ -58,7 +58,7 @@ public class TestZipPackagePropertiesMarshaller {
+         marshaller.marshall(new PackagePropertiesPart(null, PackagingURIHelper.createPartName(PACKAGE_RELATIONSHIPS_ROOT_URI)),
+                 new ZipArchiveOutputStream(new ByteArrayOutputStream()) {
+                     @Override
+-                    public void putArchiveEntry(final ArchiveEntry archiveEntry) throws IOException {
++                    public void putArchiveEntry(final ZipArchiveEntry archiveEntry) throws IOException {
+                         throw new IOException("TestException");
+                     }
+                 });

@@ -1,0 +1,117 @@
+Description: Preserves Java 8 compatibility when building with recent JDKs
+Author: Emmanuel Bourg <ebourg@apache.org>
+Forwarded: not-needed
+--- a/build.xml
++++ b/build.xml
+@@ -973,6 +973,7 @@
+ 
+             <javac target="${jdk.version.class}"
+                    source="${jdk.version.source}"
++                   release="${jdk.version.source}"
+                    srcdir="${xmlbean.sources.dir}"
+                    destdir="${xmlbean.classes.dir}"
+                    encoding="${java.source.encoding}"
+@@ -1028,6 +1029,7 @@
+         <!-- compile the sources -->
+         <javac target="${jdk.version.class}"
+                source="${jdk.version.source}"
++               release="${jdk.version.source}"
+                destdir="${main.output.dir}"
+                srcdir="${main.src}"
+                debug="${compile.debug}"
+@@ -1039,6 +1041,7 @@
+         <!-- compile the tests -->
+         <javac target="${jdk.version.class}"
+                source="${jdk.version.source}"
++               release="${jdk.version.source}"
+                destdir="${main.output.test.dir}"
+                srcdir="${main.src.test}"
+                debug="${compile.debug}"
+@@ -1093,6 +1096,7 @@
+         <!-- compile the sources -->
+         <javac target="${jdk.version.class}"
+                source="${jdk.version.source}"
++               release="${jdk.version.source}"
+                destdir="${scratchpad.output.dir}"
+                srcdir="${scratchpad.src}"
+                debug="${compile.debug}"
+@@ -1104,6 +1108,7 @@
+         <!-- compile the tests -->
+         <javac target="${jdk.version.class}"
+                source="${jdk.version.source}"
++               release="${jdk.version.source}"
+                destdir="${scratchpad.output.test.dir}"
+                srcdir="${scratchpad.src.test}"
+                debug="${compile.debug}"
+@@ -1125,6 +1130,7 @@
+     <target name="compile-examples" depends="compile-main,compile-scratchpad,compile-ooxml">
+         <javac target="${jdk.version.class}"
+                source="${jdk.version.source}"
++               release="${jdk.version.source}"
+                destdir="${examples.output.dir}"
+                srcdir="${examples.src}"
+                debug="${compile.debug}"
+@@ -1148,6 +1154,7 @@
+         <!-- compile the sources -->
+         <javac target="${jdk.version.class}"
+                source="${jdk.version.source}"
++               release="${jdk.version.source}"
+                destdir="${ooxml.output.dir}"
+                srcdir="${ooxml.src}"
+                debug="${compile.debug}"
+@@ -1162,6 +1169,7 @@
+         <!-- compile the tests -->
+         <javac target="${jdk.version.class}"
+                source="${jdk.version.source}"
++               release="${jdk.version.source}"
+                destdir="${ooxml.output.test.dir}"
+                srcdir="${ooxml.src.test}"
+                debug="${compile.debug}"
+@@ -1189,6 +1197,7 @@
+         <!-- compile the sources -->
+         <javac target="${jdk.version.class}"
+                source="${jdk.version.source}"
++               release="${jdk.version.source}"
+                destdir="${ooxml.output.dir}"
+                srcdir="${ooxml.src}"
+                debug="${compile.debug}"
+@@ -1203,6 +1212,7 @@
+         <!-- compile the tests -->
+         <javac target="${jdk.version.class}"
+                source="${jdk.version.source}"
++               release="${jdk.version.source}"
+                destdir="${ooxml.output.test.dir}"
+                srcdir="${ooxml.src.test}"
+                debug="${compile.debug}"
+@@ -1259,6 +1269,7 @@
+         <!-- compile the sources -->
+         <javac target="${jdk.version.class}"
+                source="${jdk.version.source}"
++               release="${jdk.version.source}"
+                destdir="${excelant.output.dir}"
+                srcdir="${excelant.src}"
+                debug="${compile.debug}"
+@@ -1270,6 +1281,7 @@
+         <!-- compile the tests -->
+         <javac target="${jdk.version.class}"
+                source="${jdk.version.source}"
++               release="${jdk.version.source}"
+                destdir="${excelant.output.test.dir}"
+                srcdir="${excelant.src.test}"
+                debug="${compile.debug}"
+@@ -1291,6 +1303,7 @@
+     <target name="compile-integration" depends="compile-scratchpad, compile-main, compile-ooxml, compile-examples">
+         <javac target="${jdk.version.class}"
+                source="${jdk.version.source}"
++               release="${jdk.version.source}"
+                destdir="${integration.output.test.dir}"
+                srcdir="${integration.src.test}"
+                debug="${compile.debug}"
+@@ -1329,6 +1342,7 @@
+ 
+         <!-- Compile -->
+         <javac target="${jdk.version.class}" source="${jdk.version.source}"
++               release="${jdk.version.source}"
+                failonerror="true" destdir="${main.output.dir}" debug="on" fork="yes"
+                srcdir="${main.output.dir}"
+                encoding="${java.source.encoding}" includeantruntime="false">

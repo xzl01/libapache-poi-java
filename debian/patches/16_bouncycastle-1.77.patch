@@ -1,0 +1,21 @@
+Description: adapt for BouncyCastle 1.77
+Author: tony mancill <tmancill@debian.org>
+Bug-Debian: https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=1057167
+Forwarded: no
+
+--- a/src/ooxml/java/org/apache/poi/poifs/crypt/dsig/facets/XAdESXLSignatureFacet.java
++++ b/src/ooxml/java/org/apache/poi/poifs/crypt/dsig/facets/XAdESXLSignatureFacet.java
+@@ -232,11 +232,11 @@
+                     ResponderID ocspResponderId = respId.toASN1Primitive();
+                     DERTaggedObject derTaggedObject = (DERTaggedObject)ocspResponderId.toASN1Primitive();
+                     if (2 == derTaggedObject.getTagNo()) {
+-                        ASN1OctetString keyHashOctetString = (ASN1OctetString)derTaggedObject.getObject();
++                        ASN1OctetString keyHashOctetString = (ASN1OctetString)derTaggedObject.getBaseObject();
+                         byte key[] = keyHashOctetString.getOctets();
+                         responderId.setByKey(key);
+                     } else {
+-                        X500Name name = X500Name.getInstance(derTaggedObject.getObject());
++                        X500Name name = X500Name.getInstance(derTaggedObject.getBaseObject());
+                         String nameStr = name.toString();
+                         responderId.setByName(nameStr);
+                     }

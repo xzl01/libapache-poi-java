@@ -1,0 +1,100 @@
+From 345d17c36ee3f5433cd61061728e62ad44812ffe Mon Sep 17 00:00:00 2001
+From: Andreas Beeker <kiwiwings@apache.org>
+Date: Tue, 23 Jun 2020 22:16:03 +0000
+Subject: [PATCH] XmlBeans now generates the beans including the modifications
+ which were applied by the POI build (r1879130) ... so those modifications are
+ now obsolete
+
+git-svn-id: https://svn.apache.org/repos/asf/poi/trunk@1879131 13f79535-47bb-0310-9956-ffa450edef68
+
+From 9f91309b28fbeca6522d2f72633564762d94f87d Mon Sep 17 00:00:00 2001
+From: Andreas Beeker <kiwiwings@apache.org>
+Date: Tue, 1 Sep 2020 22:28:31 +0000
+Subject: [PATCH] Adapt to new XmlBeans changes of r1881383
+
+git-svn-id: https://svn.apache.org/repos/asf/poi/trunk@1881384 13f79535-47bb-0310-9956-ffa450edef68
+
+From 997b95a4f831c9cdc74073804ce5986981187c2a Mon Sep 17 00:00:00 2001
+From: Andreas Beeker <kiwiwings@apache.org>
+Date: Sat, 19 Sep 2020 02:40:10 +0000
+Subject: [PATCH] adapt to XmlBeans changes
+
+git-svn-id: https://svn.apache.org/repos/asf/poi/trunk@1881835 13f79535-47bb-0310-9956-ffa450edef68
+
+--- a/build.xml
++++ b/build.xml
+@@ -939,36 +939,6 @@
+                 </classpath>
+             </xmlbean>
+ 
+-            <local name="loaderMethod"/>
+-            <property name="loaderMethod"><![CDATA[
+-        private static java.lang.ref.SoftReference<org.apache.xmlbeans.SchemaTypeLoader> typeLoader;
+-
+-        private static synchronized org.apache.xmlbeans.SchemaTypeLoader getTypeLoader() {
+-            org.apache.xmlbeans.SchemaTypeLoader stl = (typeLoader == null) ? null : typeLoader.get();
+-            if (stl == null) {
+-                stl = org.apache.xmlbeans.XmlBeans.typeLoaderForClassLoader(\2.class.getClassLoader());
+-                typeLoader = new java.lang.ref.SoftReference(stl);
+-            }
+-            return stl;
+-        }
+-
+-        public static \2 newInstance\(\) \{]]></property>
+-
+-            <replaceregexp byline="true" match="(\s*)public static ([^ ]+) newInstance\(\) \{" replace="${loaderMethod}">
+-                <fileset dir="${xmlbean.sources.dir}" includes="**/*.java" excludes="**/impl/**"/>
+-            </replaceregexp>
+-
+-            <replace dir="${xmlbean.sources.dir}" includes="**/*.java" excludes="**/impl/**">
+-                <replacetoken>org.apache.xmlbeans.XmlBeans.getContextTypeLoader</replacetoken>
+-                <replacevalue>getTypeLoader</replacevalue>
+-            </replace>
+-
+-            <!-- remove deprecated warnings, as we prefer the array methods - see #56854 -->
+-            <replace dir="${xmlbean.sources.dir}" includes="**/*.java" excludes="**/impl/**">
+-                <replacetoken><![CDATA[     * @deprecated
+-]]></replacetoken>
+-            </replace>
+-
+             <echo>Forking javac with max heap size ${ooxml.memory}</echo>
+ 
+             <javac target="${jdk.version.class}"
+--- a/src/ooxml/java/org/apache/poi/xssf/model/SharedStringsTable.java
++++ b/src/ooxml/java/org/apache/poi/xssf/model/SharedStringsTable.java
+@@ -91,9 +91,9 @@
+ 
+     private static final XmlOptions options = new XmlOptions();
+     static {
+-        options.put( XmlOptions.SAVE_INNER );
+-        options.put( XmlOptions.SAVE_AGGRESSIVE_NAMESPACES );
+-        options.put( XmlOptions.SAVE_USE_DEFAULT_NAMESPACE );
++        options.setSaveInner();
++        options.setSaveAggressiveNamespaces();
++        options.setUseDefaultNamespace(true);
+         options.setSaveImplicitNamespaces(Collections.singletonMap("", NS_SPREADSHEETML));
+     }
+ 
+--- a/src/ooxml/java/org/apache/poi/xwpf/usermodel/XWPFRun.java
++++ b/src/ooxml/java/org/apache/poi/xwpf/usermodel/XWPFRun.java
+@@ -458,7 +458,7 @@
+         SimpleValue svColor = null;
+         if (color.equals("auto")) {
+             STHexColorAuto hexColor = STHexColorAuto.Factory.newInstance();
+-            hexColor.set(STHexColorAuto.Enum.forString(color));
++            hexColor.setEnumValue(STHexColorAuto.Enum.forString(color));
+             svColor = (SimpleValue) hexColor;
+         } else {
+             STHexColorRGB rgbColor = STHexColorRGB.Factory.newInstance();
+@@ -1433,9 +1433,9 @@
+         STHighlightColor color = highlight.xgetVal();
+         if (color == null) {
+             color = STHighlightColor.Factory.newInstance();
+-            color.set(STHighlightColor.NONE);
++            color.setEnumValue(STHighlightColor.NONE);
+         }
+-        return (STHighlightColor.Enum)(color.enumValue());
++        return (STHighlightColor.Enum)(color.getEnumValue());
+     }
+ 
+     /**
